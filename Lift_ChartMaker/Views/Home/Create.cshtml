@@ -1,0 +1,27 @@
+﻿@model Lift_ChartMaker.Models.Exercise
+@{
+    ViewData["Title"] = "Seria";
+}
+
+<h1>Dodaj serię dla @Model.Name</h1>
+<form method="post" asp-method="Create">
+    <label id="Id" name="Id" hidden>@Model.Id</label>
+        <div class="form-group row">
+            <div class="col-4">
+                <label>Obciążenie</label>
+            </div>
+            <div class="col-4">
+                <input id="weight" name="weight" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-4">
+                <label>Powtórzenia</label>
+            </div>
+            <div class="col-4">
+                <input id="reps" name="reps" class="form-control" />
+            </div>
+        </div>
+        <input type="submit" class="btn btn-info w-30" value="Stwórz" />
+</form>

@@ -1,0 +1,68 @@
+﻿@using static Lift_ChartMaker.Calculate.Calculate;
+@model Lift_ChartMaker.Models.Exercise
+@{
+    ViewData["Title"] = "Graf";
+}
+<h3>Twój maks dla @Model.Name wynosi @TempData["max"].</h3>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+<figure class="highcharts-figure">
+    <div id="container"></div>
+    <p class="highcharts-description">
+        Wykres przedstawiający objętość siłową dla danego ćwiczenia
+    </p>
+</figure>
+@{
+}
+<script>
+    var lol = @Html.Raw(Json.Serialize(Model.Id));
+    $(document).ready(function () {
+        $.getJSON("/Home/GetData", {x: lol}, function (data) {
+            var osX = []
+            var vol = []
+
+            for (var i = 0; i < data[0].scores.length; i++) {
+                osX.push(i + 1);
+                vol.push(data[0].scores[i].weight)
+            }
+
+            console.log(data);
+            Highcharts.chart('container', {
+                chart: {
+                    type: 'line'
+                },
+                title: {
+                    text: 'Wykres progresu siłowego'
+                },
+                subtitle: {
+                    text: 'Źródło: baza danych'
+                },
+                xAxis: {
+                    categories: osX
+                },
+                yAxis: {
+                    title: {
+                        text: 'Objętość [kg]'
+                    }
+                },
+                plotOptions: {
+                    line: {
+                        dataLabels: {
+                            enabled: true
+                        },
+                        enableMouseTracking: false
+                    }
+                },
+                series: [{
+                    name: 'Ćwiczenie',
+                    data: vol
+                }]
+            });
+        });
+    });
+
+</script>
+

@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Lift_ChartMaker.Models.Exercise>
+@{
+    ViewData["Title"] = "Ćwiczenia";
+}
+@TempData["message"]
+@TempData["deleted"]
+<h1 style="color:red">
+    Witaj
+</h1>
+</br>
+<h4>Aplikacja służy do dodawania wyników siłowych w ćwiczeniach, wyliczania maksymalnego obciążenia z określonego wzoru
+    oraz rysowania wykresów objętości dla danego ćwiczenia.</h4></br></br>
+@{
+    foreach (var ex in Model)
+    {
+        <h2>@ex.Name</h2>
+        <table class="table table-bordered table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Obciążenie[kg]</th>
+                    <th>Ilość powtórzeń</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var sc in ex.Scores)
+                {
+                    <tr>
+                        <th>@sc.Weight</th>
+                        <th>@sc.Reps @Html.ActionLink("Usuń", "Delete", "Home", new { sc.Id }, new { @class = "btn btn-danger float-right" })</th>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        //<a class="btn btn-primary" src="@Url.Action("Create", "Home",new { ex.Id})" Dodaj serię</a>
+        @Html.ActionLink("Dodaj serię", "Create", "Home", new { ex.Id }, new { @class = "btn btn-primary" })
+        @Html.ActionLink("Policz i narysuj", "Graph", "Home", new { Id = ex.Id }, new { @class = "btn btn-success float-right" })
+
+        <br>
+        <br>
+        <br>
+    }
+    @*<a href="#" class="btn btn-outline-danger">PLIK Z PROJEKTEM DO POBRANIA</a>*@
+}
+
